@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+    background-image: url(../images/Food-background.jpg);
+    background-size: cover;
+}
+
+.form-group {
+    background: rgba(248, 248, 248, 0.5); /* Grey background with 0.5 opacity */
+    padding: 10px 30px 10px 30px;
+}
