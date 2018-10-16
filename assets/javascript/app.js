@@ -13,8 +13,10 @@
     //show cover page again, but this time with correct, incorrect and unanswered questions
         //show win or loss based on corrected answers (8 total questions)
         //button option to restart the game
+
+
 $(document).ready(function() {
-// WANT MODAL TO LOAD BEFORE THE CLOCK COUNTER STARTS - HOW TO?
+// WANT MODAL TO LOAD BEFORE THE CLOCK COUNTER STARTS 
 // link to modal information https://getbootstrap.com/docs/4.1/components/modal/
 //create modal with "start button" and then at the end of the game the modal will appear again with game score and the start button.
 //add functionality for ".button-finish" - show modal with questions correct/wrong/unanswered/start button?
@@ -29,17 +31,29 @@ $(document).ready(function() {
     //     modal.find('.modal-title').text('New message to ' + recipient)
     //     modal.find('.modal-body input').val(recipient)
     // });
+    var correctAnswer = 0;
+    var incorrectAnswer = 0;
 
+    $('input[name=correctCheckbox]').change(function(){ //need to add a function that will calculate the totals for the modal popup
+        if($(this).is(':checked')) {
+            correctAnswer++;
+            console.log("I'm right"); //working
+        } else {
+            incorrectAnswer++;
+            console.log("I'm wrong"); //not working, need a second class?
+        }
+    });
 
+    //link the correct answer totals to the modal "correctAnswerNum" 
 
-    $(window).on("load", function() {
-        $('#myModal').modal('show');
+    $(window).on("load", function() { // allows the modal to load before the counter starts
+        $('#myModal').modal('show'); //working
         
         //we don't want an onclick event, we just want it to start when the modal clicks off... how?
         $(".button-finish").click(stopwatch.stop);
         $(".button-start").click(stopwatch.start);
-    
-
+    });
+        //code for stopwatch, still need to sort out how to stop it at a minute
     var intervalID;
     var clockRunning = false;
     var stopwatch = {
@@ -88,7 +102,7 @@ $(document).ready(function() {
             return minutes + ":" + seconds;
         },
 
-        increment: function() {
+        increment: function() { //to hopefully stop the stopwatch at a minute and then reset to zero
             if ((".button-finish").on("click", stop)) {
                 stop();
                 reset();
@@ -97,10 +111,10 @@ $(document).ready(function() {
                 stop();
                 reset();
              }
-        }
+            }
 
-        }; 
+    }; 
     
-    });
+    
          
 });
