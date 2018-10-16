@@ -1,10 +1,10 @@
 //Trivia form with multiple choice or true/false questions - done!
-//Player has to finish the quiz in a limited amount of time
+//Player has to finish the quiz in a limited amount of time - timer code included, not sure how to link to modal?
     //game ends when time runs out
     //end of game page shows number of questions the player got correct and incorrect
 //Game Play
     //Player can only pick one answer per question
-    //show a countdown timer
+    //show a countdown timer - done! (want the timer to move with page?)
     //identify answers chosen - and count in the background correct versus incorrect
 
 //Game start and finish
@@ -19,9 +19,26 @@ $(document).ready(function() {
 //create modal with "start button" and then at the end of the game the modal will appear again with game score and the start button.
 //add functionality for ".button-finish" - show modal with questions correct/wrong/unanswered/start button?
 
-    window.onload = function() {
+//THIS IS THE FUNCTION NEEDED TO CHANGE THE CONTENT IN THE MODAL FOR START VERSUS FINISH
+    // $('#myModal').on('show.bs.modal', function (event) {
+    //     var button = $(event.relatedTarget) // Button that triggered the modal
+    //     var recipient = button.data('whatever') // Extract info from data-* attributes
+    //     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    //     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    //     var modal = $(this)
+    //     modal.find('.modal-title').text('New message to ' + recipient)
+    //     modal.find('.modal-body input').val(recipient)
+    // });
+
+
+
+    $(window).on("load", function() {
+        $('#myModal').modal('show');
+        
         //we don't want an onclick event, we just want it to start when the modal clicks off... how?
-    }
+        $(".button-finish").click(stopwatch.stop);
+        $(".button-start").click(stopwatch.start);
+    
 
     var intervalID;
     var clockRunning = false;
@@ -69,7 +86,21 @@ $(document).ready(function() {
             }
 
             return minutes + ":" + seconds;
+        },
+
+        increment: function() {
+            if ((".button-finish").on("click", stop)) {
+                stop();
+                reset();
+            }
+             elseif (minutes === 1 && seconds === 00); {
+                stop();
+                reset();
+             }
         }
+
+        }; 
+    
+    });
          
-    }
 });
