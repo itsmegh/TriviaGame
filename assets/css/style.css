@@ -8,3 +8,18 @@ body {
     background: rgba(248, 248, 248, 0.5); /* Grey background with 0.5 opacity */
     padding: 10px 30px 10px 30px;
 }
+
+#wrapper {
+    background: rgba(248, 248, 248, 0.5); /* Grey background with 0.5 opacity */
+    border: solid;
+    padding: 10px;
+    font-size: 40px;
+    display: flex;
+
+}
+
+#sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
