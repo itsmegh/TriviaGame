@@ -31,6 +31,7 @@ $(document).ready(function() {
     //     modal.find('.modal-title').text('New message to ' + recipient)
     //     modal.find('.modal-body input').val(recipient)
     // });
+    
     var correctAnswer = 0;
     var incorrectAnswer = 0;
     //tracks the correct box clicks
@@ -40,6 +41,12 @@ $(document).ready(function() {
             console.log("I'm right"); //working
         } 
     });
+
+    // var addValues = function(clickedCheckbox) {
+    //     if (correctAnswer += clickedCheckbox.value)
+    //     incorrectAnswer += clickedCheckbox.value;
+    // }
+
     //tracks the incorrect box clicks
     $('input[name=incorrectCheckbox]').change(function(){ //need to add a function that will calculate the totals for the modal popup
         if($(this).is(':checked')) {
@@ -105,17 +112,21 @@ $(document).ready(function() {
 
     //startGame();
     
-
+    function endGame() {
+        if ($(".button-finish").click(stopwatch.stop)) {
+            //SHOW MODAL WITH TOTAL ANSWERS 
+        }
+        
+    }
 
     //link the correct answer totals to the modal "correctAnswerNum" 
 
     $(window).on("load", function() { // allows the modal to load before the counter starts
         $('#myModal').modal('show'); //working
+        $(".button-start").click(stopwatch.start);
         
     });
 
-    $(".button-finish").click(stopwatch.stop);
-    $(".button-start").click(stopwatch.start);
 
         //code for stopwatch, still need to sort out how to stop it at a minute
     var intervalID;
