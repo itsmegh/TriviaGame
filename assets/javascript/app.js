@@ -34,75 +34,57 @@ $(document).ready(function() {
     
     var correctAnswer = 0;
     var incorrectAnswer = 0;
-    //tracks the correct box clicks
-    $('input[name=correctCheckbox]').change(function(){ //need to add a function that will calculate the totals for the modal popup
-        if($(this).is(':checked')) {
-            correctAnswer++;
-            console.log("I'm right"); //working
-        } 
-    });
+    
 
-    // var addValues = function(clickedCheckbox) {
-    //     if (correctAnswer += clickedCheckbox.value)
-    //     incorrectAnswer += clickedCheckbox.value;
-    // }
 
-    //tracks the incorrect box clicks
-    $('input[name=incorrectCheckbox]').change(function(){ //need to add a function that will calculate the totals for the modal popup
-        if($(this).is(':checked')) {
-            incorrectAnswer++;
-            console.log("I'm wrong"); //working
-        } 
-    });
+    
+    // $(".form-check-input1").on("change", function() {
+    //     if($('.form-check-input1:checked').length > 1) {
+    //             this.checked = false;
+    //         }
+    // });
 
-    //These functions are for each of the checkboxes to ensure only one is checked per group
-    $(".form-check-input1").on("change", function() {
-        if($('.form-check-input1:checked').length > 1) {
-                this.checked = false;
-            }
-    });
+    // $(".form-check-input2").on("change", function() {
+    //     if($('.form-check-input2:checked').length > 1) {
+    //             this.checked = false;
+    //         }
+    // });
 
-    $(".form-check-input2").on("change", function() {
-        if($('.form-check-input2:checked').length > 1) {
-                this.checked = false;
-            }
-    });
+    // $(".form-check-input3").on("change", function() {
+    //     if($('.form-check-input3:checked').length > 1) {
+    //             this.checked = false;
+    //         }
+    // });
 
-    $(".form-check-input3").on("change", function() {
-        if($('.form-check-input3:checked').length > 1) {
-                this.checked = false;
-            }
-    });
+    // $(".form-check-input4").on("change", function() {
+    //     if($('.form-check-input4:checked').length > 1) {
+    //             this.checked = false;
+    //         }
+    // });
 
-    $(".form-check-input4").on("change", function() {
-        if($('.form-check-input4:checked').length > 1) {
-                this.checked = false;
-            }
-    });
+    // $(".form-check-input5").on("change", function() {
+    //     if($('.form-check-input5:checked').length > 1) {
+    //             this.checked = false;
+    //         }
+    // });
 
-    $(".form-check-input5").on("change", function() {
-        if($('.form-check-input5:checked').length > 1) {
-                this.checked = false;
-            }
-    });
+    // $(".form-check-input6").on("change", function() {
+    //     if($('.form-check-input6:checked').length > 1) {
+    //             this.checked = false;
+    //         }
+    // });
 
-    $(".form-check-input6").on("change", function() {
-        if($('.form-check-input6:checked').length > 1) {
-                this.checked = false;
-            }
-    });
+    // $(".form-check-input7").on("change", function() {
+    //     if($('.form-check-input7:checked').length > 1) {
+    //             this.checked = false;
+    //         }
+    // });
 
-    $(".form-check-input7").on("change", function() {
-        if($('.form-check-input7:checked').length > 1) {
-                this.checked = false;
-            }
-    });
-
-    $(".form-check-input8").on("change", function() {
-        if($('.form-check-input8:checked').length > 1) {
-                this.checked = false;
-            }
-    });
+    // $(".form-check-input8").on("change", function() {
+    //     if($('.form-check-input8:checked').length > 1) {
+    //             this.checked = false;
+    //         }
+    // });
 
 
     //function startGame() { //struggling with the reset function
@@ -114,7 +96,23 @@ $(document).ready(function() {
     
     function endGame() {
         if ($(".button-finish").click(stopwatch.stop)) {
-            //SHOW MODAL WITH TOTAL ANSWERS 
+            console.log("in end game");
+         checkAnswers();
+         //tracks the correct box clicks
+            $('input[value=1]').change(function(){ //need to add a function that will calculate the totals for the modal popup
+                if($(this).is(':checked')) {
+                    correctAnswer++;
+                    console.log("I'm right"); //working
+                } 
+            });
+
+            //tracks the incorrect box clicks
+            $('input[value=0]').change(function(){ //need to add a function that will calculate the totals for the modal popup
+                if($(this).is(':checked')) {
+                    incorrectAnswer++;
+                    console.log("I'm wrong"); //working
+                } 
+            });
         }
         
     }
