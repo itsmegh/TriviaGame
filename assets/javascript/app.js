@@ -3,16 +3,16 @@
     //game ends when time runs out
     //end of game page shows number of questions the player got correct and incorrect
 //Game Play
-    //Player can only pick one answer per question
+    //Player can only pick one answer per question - done!
     //show a countdown timer - done! (want the timer to move with page?)
-    //identify answers chosen - and count in the background correct versus incorrect
+    //identify answers chosen - and count in the background correct versus incorrect - was working?
 
 //Game start and finish
-    //need to add a cover page that hides the questions - start button
-    // done button at the bottom of the questions to stop the game clock
-    //show cover page again, but this time with correct, incorrect and unanswered questions
+    //need to add a cover page that hides the questions - start button - modal added, not functioning yet
+    // finished button at the bottom of the questions to stop the game clock - button added, not functioning
+    //show cover page again, but this time with correct, incorrect and unanswered questions - modal added
         //show win or loss based on corrected answers (8 total questions)
-        //button option to restart the game
+        //button option to restart the game - button in modal
 
 
 $(document).ready(function() {
@@ -33,26 +33,90 @@ $(document).ready(function() {
     // });
     var correctAnswer = 0;
     var incorrectAnswer = 0;
-
+    //tracks the correct box clicks
     $('input[name=correctCheckbox]').change(function(){ //need to add a function that will calculate the totals for the modal popup
         if($(this).is(':checked')) {
             correctAnswer++;
             console.log("I'm right"); //working
-        } else {
-            incorrectAnswer++;
-            console.log("I'm wrong"); //not working, need a second class?
-        }
+        } 
     });
+    //tracks the incorrect box clicks
+    $('input[name=incorrectCheckbox]').change(function(){ //need to add a function that will calculate the totals for the modal popup
+        if($(this).is(':checked')) {
+            incorrectAnswer++;
+            console.log("I'm wrong"); //working
+        } 
+    });
+
+    //These functions are for each of the checkboxes to ensure only one is checked per group
+    $(".form-check-input1").on("change", function() {
+        if($('.form-check-input1:checked').length > 1) {
+                this.checked = false;
+            }
+    });
+
+    $(".form-check-input2").on("change", function() {
+        if($('.form-check-input2:checked').length > 1) {
+                this.checked = false;
+            }
+    });
+
+    $(".form-check-input3").on("change", function() {
+        if($('.form-check-input3:checked').length > 1) {
+                this.checked = false;
+            }
+    });
+
+    $(".form-check-input4").on("change", function() {
+        if($('.form-check-input4:checked').length > 1) {
+                this.checked = false;
+            }
+    });
+
+    $(".form-check-input5").on("change", function() {
+        if($('.form-check-input5:checked').length > 1) {
+                this.checked = false;
+            }
+    });
+
+    $(".form-check-input6").on("change", function() {
+        if($('.form-check-input6:checked').length > 1) {
+                this.checked = false;
+            }
+    });
+
+    $(".form-check-input7").on("change", function() {
+        if($('.form-check-input7:checked').length > 1) {
+                this.checked = false;
+            }
+    });
+
+    $(".form-check-input8").on("change", function() {
+        if($('.form-check-input8:checked').length > 1) {
+                this.checked = false;
+            }
+    });
+
+
+    //function startGame() { //struggling with the reset function
+        //document.getElementById("form-group").reset(); //clear the forms
+
+    //}
+
+    //startGame();
+    
+
 
     //link the correct answer totals to the modal "correctAnswerNum" 
 
     $(window).on("load", function() { // allows the modal to load before the counter starts
         $('#myModal').modal('show'); //working
         
-        //we don't want an onclick event, we just want it to start when the modal clicks off... how?
-        $(".button-finish").click(stopwatch.stop);
-        $(".button-start").click(stopwatch.start);
     });
+
+    $(".button-finish").click(stopwatch.stop);
+    $(".button-start").click(stopwatch.start);
+
         //code for stopwatch, still need to sort out how to stop it at a minute
     var intervalID;
     var clockRunning = false;
