@@ -1,6 +1,6 @@
 //Trivia form with multiple choice or true/false questions - done!
 //Player has to finish the quiz in a limited amount of time - timer code included, not sure how to link to modal?
-    //game ends when time runs out
+    //game ends when time runs out - done!
     //end of game page shows number of questions the player got correct and incorrect
 //Game Play
     //Player can only pick one answer per question - done!
@@ -35,47 +35,6 @@ $(document).ready(function() {
     var correctAnswer = 0;
     var incorrectAnswer = 0;
 
-
-    //function startGame() { //struggling with the reset function
-        //document.getElementById("form-group").reset(); //clear the forms
-
-    //}
-
-    //startGame();
-    
-    function endGame() {
-        if ($(".button-finish").click(stopwatch.stop)) {
-            console.log("in end game");
-         checkAnswers();
-         //tracks the correct box clicks
-            $('input[value=1]').change(function(){ //need to add a function that will calculate the totals for the modal popup
-                if($(this).is(':checked')) {
-                    correctAnswer++;
-                    console.log("I'm right"); //working
-                } 
-            });
-
-            //tracks the incorrect box clicks
-            $('input[value=0]').change(function(){ //need to add a function that will calculate the totals for the modal popup
-                if($(this).is(':checked')) {
-                    incorrectAnswer++;
-                    console.log("I'm wrong"); //working
-                } 
-            });
-        }
-        
-    }
-
-    //link the correct answer totals to the modal "correctAnswerNum" 
-
-    $(window).on("load", function() { // allows the modal to load before the counter starts
-        $('#myModal').modal('show'); //working
-        $(".button-start").click(stopwatch.start);
-        
-    });
-
-
-        //code for stopwatch, still need to sort out how to stop it at a minute
     var intervalID;
     var clockRunning = false;
     var stopwatch = {
@@ -127,18 +86,70 @@ $(document).ready(function() {
             return minutes + ":" + seconds;
         },
 
-        increment: function() { //to hopefully stop the stopwatch at a minute and then reset to zero
-            if ((".button-finish").on("click", stop)) {
-                stop();
-                reset();
-            }
-             elseif (minutes === 00 && seconds === 00); {
-                stop();
-                reset();
-             }
-            }
 
-    }; 
+
+    };
+
+
+    //function startGame() { //struggling with the reset function
+        //document.getElementById("form-group").reset(); //clear the forms
+
+    //}
+
+    //startGame();
+    
+    //link the correct answer totals to the modal "correctAnswerNum" 
+
+    $(window).on("load", function() { // allows the modal to load before the counter starts
+        $('#myModal').modal('show'); //working
+        $(".button-start").click(stopwatch.start);
+        $("#display").text(stopwatch.count);
+        
+        
+    });
+
+    gamePlay();    
+    
+    function gamePlay() {
+        if ($(".button-finish").click(stopwatch.stop)) {
+            gameFinish()
+            console.log("game is working");
+            stopwatch.reset();
+            
+            //tracks the correct box clicks
+            $('input[value=1]').change(function(){ //need to add a function that will calculate the totals for the modal popup
+                if($(this).is(':checked')) {
+                    correctAnswer++;
+                    console.log("I'm right"); //working
+                } 
+            });
+
+            //tracks the incorrect box clicks
+            $('input[value=0]').change(function(){ //need to add a function that will calculate the totals for the modal popup
+                if($(this).is(':checked')) {
+                    incorrectAnswer++;
+                    console.log("I'm wrong"); //working
+                } 
+            });
+
+        } else if (minutes === 00 && seconds === 00); {
+            gameFinish();
+            stopwatch.reset();
+                };
+    }
+
+    function gameFinish() {
+        console.log("game over");
+        $(".correctAnswerNum").text(correctAnswer);
+        $(".incorrectAnswerNum").text(incorrectAnswer);
+        $('#myModal').modal('show');
+
+    };
+    
+
+
+
+        
     
     
          
