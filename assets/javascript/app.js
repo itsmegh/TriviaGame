@@ -34,57 +34,6 @@ $(document).ready(function() {
     
     var correctAnswer = 0;
     var incorrectAnswer = 0;
-    
-
-
-    
-    // $(".form-check-input1").on("change", function() {
-    //     if($('.form-check-input1:checked').length > 1) {
-    //             this.checked = false;
-    //         }
-    // });
-
-    // $(".form-check-input2").on("change", function() {
-    //     if($('.form-check-input2:checked').length > 1) {
-    //             this.checked = false;
-    //         }
-    // });
-
-    // $(".form-check-input3").on("change", function() {
-    //     if($('.form-check-input3:checked').length > 1) {
-    //             this.checked = false;
-    //         }
-    // });
-
-    // $(".form-check-input4").on("change", function() {
-    //     if($('.form-check-input4:checked').length > 1) {
-    //             this.checked = false;
-    //         }
-    // });
-
-    // $(".form-check-input5").on("change", function() {
-    //     if($('.form-check-input5:checked').length > 1) {
-    //             this.checked = false;
-    //         }
-    // });
-
-    // $(".form-check-input6").on("change", function() {
-    //     if($('.form-check-input6:checked').length > 1) {
-    //             this.checked = false;
-    //         }
-    // });
-
-    // $(".form-check-input7").on("change", function() {
-    //     if($('.form-check-input7:checked').length > 1) {
-    //             this.checked = false;
-    //         }
-    // });
-
-    // $(".form-check-input8").on("change", function() {
-    //     if($('.form-check-input8:checked').length > 1) {
-    //             this.checked = false;
-    //         }
-    // });
 
 
     //function startGame() { //struggling with the reset function
@@ -130,7 +79,7 @@ $(document).ready(function() {
     var intervalID;
     var clockRunning = false;
     var stopwatch = {
-        time: 0,
+        time: 10000,
 
         reset: function() {
             stopwatch.time = 0;
@@ -139,9 +88,11 @@ $(document).ready(function() {
         },
 
         start: function() {
+            console.log("clock starting")
             if(!clockRunning) {
                 intervalID = setInterval(stopwatch.count, 1000);
                 clockRunning = true;
+                stopwatch.count();
             }
         },
 
@@ -151,7 +102,8 @@ $(document).ready(function() {
         },
 
         count: function() {
-            stopwatch.time++;
+            console.log("counting");
+            stopwatch.time--;
             var currentTime = stopwatch.timeConverter(stopwatch.time);
             $("#display").text(currentTime);
         },
@@ -180,7 +132,7 @@ $(document).ready(function() {
                 stop();
                 reset();
             }
-             elseif (minutes === 1 && seconds === 00); {
+             elseif (minutes === 00 && seconds === 00); {
                 stop();
                 reset();
              }
