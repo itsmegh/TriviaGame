@@ -16,21 +16,9 @@
 
 
 $(document).ready(function() {
-// WANT MODAL TO LOAD BEFORE THE CLOCK COUNTER STARTS 
-// link to modal information https://getbootstrap.com/docs/4.1/components/modal/
 //create modal with "start button" and then at the end of the game the modal will appear again with game score and the start button.
-//add functionality for ".button-finish" - show modal with questions correct/wrong/unanswered/start button?
+//add functionality for ".button-finish" - show modal with questions correct/wrong/unanswered/start button
 
-//THIS IS THE FUNCTION NEEDED TO CHANGE THE CONTENT IN THE MODAL FOR START VERSUS FINISH
-    // $('#myModal').on('show.bs.modal', function (event) {
-    //     var button = $(event.relatedTarget) // Button that triggered the modal
-    //     var recipient = button.data('whatever') // Extract info from data-* attributes
-    //     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-    //     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-    //     var modal = $(this)
-    //     modal.find('.modal-title').text('New message to ' + recipient)
-    //     modal.find('.modal-body input').val(recipient)
-    // });
     
     var correctAnswer = 0;
     var incorrectAnswer = 0;
@@ -38,12 +26,12 @@ $(document).ready(function() {
     var intervalID;
     var clockRunning = false;
     var stopwatch = {
-        time: 10000,
+        time: 120,
 
         reset: function() {
             stopwatch.time = 0;
 
-            $("#display").text("00:00");
+            $(".display").text("00:00");
         },
 
         start: function() {
@@ -64,7 +52,7 @@ $(document).ready(function() {
             console.log("counting");
             stopwatch.time--;
             var currentTime = stopwatch.timeConverter(stopwatch.time);
-            $("#display").text(currentTime);
+            $(".display").text(currentTime);
         },
 
         timeConverter: function(t) {
@@ -101,18 +89,16 @@ $(document).ready(function() {
     //link the correct answer totals to the modal "correctAnswerNum" 
 
     $(window).on("load", function() { // allows the modal to load before the counter starts
-        $('#myModal').modal('show'); //working
-        $(".button-start").click(stopwatch.start);
-        $("#display").text(stopwatch.count);
-        
+        $('#myModal1').modal('show'); //working
+        $(".button-start").click(stopwatch.start); {
+            $(".display").text(stopwatch.count);
+        };
         
     });
 
-    gamePlay();    
     
     function gamePlay() {
         if ($(".button-finish").click(stopwatch.stop)) {
-            gameFinish()
             console.log("game is working");
             stopwatch.reset();
             
@@ -140,9 +126,10 @@ $(document).ready(function() {
 
     function gameFinish() {
         console.log("game over");
+        $('#myModal2').modal('show');
         $(".correctAnswerNum").text(correctAnswer);
         $(".incorrectAnswerNum").text(incorrectAnswer);
-        $('#myModal').modal('show');
+        
 
     };
     
