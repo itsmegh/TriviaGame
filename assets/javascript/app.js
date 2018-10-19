@@ -29,9 +29,10 @@ $(document).ready(function() {
         time: 30,
 
         reset: function() {
-            stopwatch.time = 0;
+            stopwatch.time;
+            clockRunning = false;
+            $(".button-start").click(stopwatch.start);
 
-            $(".display").text("00:00");
         },
 
         start: function() {
@@ -46,6 +47,7 @@ $(document).ready(function() {
         stop: function() {
             clearInterval(intervalID);
             clockRunning = false;
+            gameOver();
         },
 
         count: function() {
@@ -89,7 +91,7 @@ $(document).ready(function() {
 
     function scoreCounter() {
         //tracks the correct box clicks
-        $('input[value=1]').change(function(){ //need to add a function that will calculate the totals for the modal popup
+        $('input[value=1]').change(function(){ 
             if($(this).is(':checked')) {
                 correctAnswer++;
                 $(".correctAnswerNum").text(correctAnswer);
@@ -99,7 +101,7 @@ $(document).ready(function() {
         });
 
         //tracks the incorrect box clicks
-        $('input[value=0]').change(function(){ //need to add a function that will calculate the totals for the modal popup
+        $('input[value=0]').change(function(){ 
             if($(this).is(':checked')) {
                 incorrectAnswer++;
                 $(".incorrectAnswerNum").text(incorrectAnswer);
@@ -121,16 +123,22 @@ $(document).ready(function() {
             console.log("time ran out");
             scoreCounter();
         };
-    }
-    
-
-    function gameOver() {
-        if (checkGameFinish()) {
-            console.log("game over");
-            $('#myModal2').modal('show');
-            stopwatch.reset();
-        }
 
     };
-         
+    
+
+    async function gameOver() {
+            var x = await checkGameFinish();
+            console.log("game over");
+            console.log(x);
+            $('#myModal2').modal('show');
+            stopwatch.reset();
+        };
+
+    function resetButtonForm() {
+        $("#myForm")
+    }
+
+
 });
+         
