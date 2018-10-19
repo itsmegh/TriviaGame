@@ -26,7 +26,7 @@ $(document).ready(function() {
     var intervalID;
     var clockRunning = false;
     var stopwatch = {
-        time: 120,
+        time: 30,
 
         reset: function() {
             stopwatch.time = 0;
@@ -74,70 +74,63 @@ $(document).ready(function() {
             return minutes + ":" + seconds;
         },
 
-
-
     };
 
-
-    //function startGame() { //struggling with the reset function
-        //document.getElementById("form-group").reset(); //clear the forms
-
-    //}
-
-    //startGame();
-    
-    //link the correct answer totals to the modal "correctAnswerNum" 
 
     $(window).on("load", function() { // allows the modal to load before the counter starts
         $('#myModal1').modal('show'); //working
-        $(".button-start").click(stopwatch.start); {
-            $(".display").text(stopwatch.count);
+        $(".button-start").click(stopwatch.start); { //working
+            $(".display").text(stopwatch.count); //working
         };
+
+        checkGameFinish();
         
     });
 
-    
-    function gamePlay() {
-        if ($(".button-finish").click(stopwatch.stop)) {
-            console.log("game is working");
-            stopwatch.reset();
-            
-            //tracks the correct box clicks
-            $('input[value=1]').change(function(){ //need to add a function that will calculate the totals for the modal popup
-                if($(this).is(':checked')) {
-                    correctAnswer++;
-                    console.log("I'm right"); //working
-                } 
-            });
+    function scoreCounter() {
+        //tracks the correct box clicks
+        $('input[value=1]').change(function(){ //need to add a function that will calculate the totals for the modal popup
+            if($(this).is(':checked')) {
+                correctAnswer++;
+                $(".correctAnswerNum").text(correctAnswer);
 
-            //tracks the incorrect box clicks
-            $('input[value=0]').change(function(){ //need to add a function that will calculate the totals for the modal popup
-                if($(this).is(':checked')) {
-                    incorrectAnswer++;
-                    console.log("I'm wrong"); //working
-                } 
-            });
+                console.log("I'm right"); //working
+            } 
+        });
 
-        } else if (minutes === 00 && seconds === 00); {
-            gameFinish();
-            stopwatch.reset();
-                };
-    }
+        //tracks the incorrect box clicks
+        $('input[value=0]').change(function(){ //need to add a function that will calculate the totals for the modal popup
+            if($(this).is(':checked')) {
+                incorrectAnswer++;
+                $(".incorrectAnswerNum").text(incorrectAnswer);
 
-    function gameFinish() {
-        console.log("game over");
-        $('#myModal2').modal('show');
-        $(".correctAnswerNum").text(correctAnswer);
-        $(".incorrectAnswerNum").text(incorrectAnswer);
-        
+                console.log("I'm wrong"); //working
+            } 
+        });
 
     };
-    
 
 
+    function checkGameFinish() {
+        if ($(".button-finish").click(stopwatch.stop)) {
+            console.log("finish button works");
+            scoreCounter();
+            
 
-        
+        } else if (minutes === 00 && seconds === 00); {
+            console.log("time ran out");
+            scoreCounter();
+        };
+    }
     
-    
+
+    function gameOver() {
+        if (checkGameFinish()) {
+            console.log("game over");
+            $('#myModal2').modal('show');
+            stopwatch.reset();
+        }
+
+    };
          
 });
