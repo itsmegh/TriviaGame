@@ -136,7 +136,8 @@ $(document).ready(function() {
         };
 
     function resetButtonForm() {
-        $("#myForm")
+        $("#myForm").reset();
+        
     }
 
 
