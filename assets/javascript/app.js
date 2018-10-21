@@ -80,6 +80,18 @@ $(document).ready(function() {
     var newArray = [];
     var holder = [];
 
+    $("#reset").hide();
+
+    // $(".button-start").on("click", function() {
+    //     $(".button-start").hide();
+    //     displayQuestion();
+    //     stopwatch.start();
+    //     // for(var i=0; i<options.length; i++) {
+    //     //     holder.push(options[i]);
+        
+
+    // });
+
     var intervalID;
     var clockRunning = false;
     var stopwatch = {
@@ -112,6 +124,12 @@ $(document).ready(function() {
             stopwatch.time--;
             var currentTime = stopwatch.timeConverter(stopwatch.time);
             $(".display").text(currentTime);
+
+            if(currentTime === 0) {
+                incorrectAnswer++;
+                stopwatch.stop();
+                $("#answerblock").html("<p>Time is up! The correct answer is: " + pick.choice[pick.answer] + "</p>");
+            }
         },
 
         timeConverter: function(t) {
@@ -140,63 +158,115 @@ $(document).ready(function() {
         $('#myModal1').modal('show'); //working
         $(".button-start").click(stopwatch.start); { //working
             $(".display").text(stopwatch.count); //working
+            displayQuestion();
+            for(var i=0; i<options.length; i++)
+            holder.push(options[i]);
         };
 
-        checkGameFinish();
-        
+
     });
 
-    function scoreCounter() {
-        //tracks the correct box clicks
-        $('input[value=1]').change(function(){ 
-            if($(this).is(':checked')) {
-                correctAnswer++;
-                $(".correctAnswerNum").text(correctAnswer);
+    function displayQuestion() {
+        console.log("display question is working")
+        index = Math.floor(Math.random()*options.length);
+        pick = options[index];
 
-                console.log("I'm right"); //working
-            } 
-        });
-
-        //tracks the incorrect box clicks
-        $('input[value=0]').change(function(){ 
-            if($(this).is(':checked')) {
-                incorrectAnswer++;
-                $(".incorrectAnswerNum").text(incorrectAnswer);
-
-                console.log("I'm wrong"); //working
-            } 
-        });
-
+        $("#questionBlock").html("<h2>" + pick.question + "</h2>");
+        for(var i=0; i<pick.choice.length; i++) {
+            //iterate through answer array and display
+            var userChoice = $("<div>");
+            userChoice.addClass("answerChoice");
+            userChoice.html(pick.choice[i]);
+            //asign array position to check answer
+            userChoice.attr("data-guessvalue", i);
+            $("#answerBlock").append(userChoice);
+        }
     };
-
 
     function checkGameFinish() {
-        if ($(".button-finish").click(stopwatch.stop)) {
-            console.log("finish button works");
-            scoreCounter();
-            
-
-        } else if (minutes === 00 && seconds === 00); {
-            console.log("time ran out");
-            scoreCounter();
-        };
-
-    };
-    
-
-    async function gameOver() {
-            var x = await checkGameFinish();
-            console.log("game over");
-            console.log(x);
-            $('#myModal2').modal('show');
+        if (incorrectAnswer + correctAnswer === qCount) {
+            $("#questionBlock").empty();
+            $("#questionBlock").html("<h3>Game Over! Here's your score!</h3>");
+            $("#answerBlock").append("<h4> Correct")
+        } else {
             stopwatch.reset();
+            displayQuestion();
+        }
+        
         };
 
-    function resetButtonForm() {
-        $("#myForm").reset();
+    
         
-    }
 
+    //click function to select answer and outcomes
+    $(".answerChoice").on("click", function() {
+        console.log("answer choices should click");
+        //grab array position from the user guess
+        userGuess = parseInt($(this).attr("data-guessvalue"));
+
+        //correct guess or wrong guess outcomes
+        if (userGuess === pick.answer) {
+            stopwatch.stop();
+            correctAnswer++;
+            userGuess="";
+            $("#answerBlock").html("<p>Correct!</p>");
+
+        } else {
+            stopwatch.stop();
+            incorrectAnswer++;
+            userGuess="";
+            $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>")
+        }
+    });
 
 });
-         
+    // function scoreCounter() {
+    //     //tracks the correct box clicks
+    //     $('input[value=1]').change(function(){ 
+    //         if($(this).is(':checked')) {
+    //             correctAnswer++;
+    //             $(".correctAnswerNum").text(correctAnswer);
+
+    //             console.log("I'm right"); //working
+    //         } 
+    //     });
+
+    //     //tracks the incorrect box clicks
+    //     $('input[value=0]').change(function(){ 
+    //         if($(this).is(':checked')) {
+    //             incorrectAnswer++;
+    //             $(".incorrectAnswerNum").text(incorrectAnswer);
+
+    //             console.log("I'm wrong"); //working
+    //         } 
+    //     });
+
+    // };
+
+    
+    
+
+    // function checkGameFinish() {
+    //     if ($(".button-finish").click(stopwatch.stop)) {
+    //         console.log("finish button works");
+    //         scoreCounter();
+            
+
+    //     } else if (minutes === 00 && seconds === 00); {
+    //         console.log("time ran out");
+    //         scoreCounter();
+    //     };
+
+    // };
+    
+
+    // async function gameOver() {
+    //         var x = await checkGameFinish();
+    //         console.log("game over");
+    //         console.log(x);
+    //         $('#myModal2').modal('show');
+    //         stopwatch.reset();
+    //     };
+
+    // function resetButtonForm() {
+    //     $("#myForm").reset();
