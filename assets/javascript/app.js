@@ -18,15 +18,72 @@
 $(document).ready(function() {
 //create modal with "start button" and then at the end of the game the modal will appear again with game score and the start button.
 //add functionality for ".button-finish" - show modal with questions correct/wrong/unanswered/start button
-
-    
+    var options = [
+        {
+            question: "A roux is used to thicken soups or sauces. What is it usually made from?",
+            choice: ["Egg and Flour", "Butter and Flour", "Water and Flour"],
+            answer: 1
+        },
+        {
+            question: "Pupusas are a handmade, thick stuffed corn tortilla traditionally made in what country?",
+            choice: ["Ethiopia", "Peru", "El Salvadore"],
+            answer: 2
+        },
+        {
+            question: "To zest a citrus fruit is to:",
+            choice: ["Grate or scrape off part of the rind", "Squeeze juice from the pulp", "Cut the fruit into small pieces"],
+            answer: 0
+        },
+        {
+            question: "When droplets of oil and vinegar are mixed together so they are no longer separate, they have been...?",
+            choice: ["Clarified", "Extracted", "Emulsified"],
+            answer: 2
+        },
+        {
+            question: "Roughly how many tablespoons are in 1 cup?",
+            choice: ["8", "12", "16"],
+            answer: 2
+        },
+        {
+            question: "Saint Andre, Burrata, Emmentaler and Halloumi are types of..?",
+            choice: ["Wine", "Cheese", "Chocolate"],
+            answer: 1
+        },
+        {
+            question: "What does au jus mean?",
+            choice: ["Served with the natual cooking juices", "Cooked in wine", "Cooked with citrus or other fruit juices"],
+            answer: 0
+        },
+        {
+            question: "How many items are in a Baker's Dozen?",
+            choice: ["12", "13", "14"],
+            answer: 1
+        },
+        {
+            question: "Which fruit contains the most protein per 100 calories?",
+            choice: ["Guava", "Avocado", "Banana"],
+            answer: 0
+        },
+        {
+            question: "What is the most widely eaten fish in the world?",
+            choice: ["Tilapia", "Cod", "Herring"],
+            answer: 2
+        },
+    ];
+        
     var correctAnswer = 0;
     var incorrectAnswer = 0;
+    var userGuess = "";
+    var qCount = options.length;
+    var pick;
+    var index;
+    var newArray = [];
+    var holder = [];
 
     var intervalID;
     var clockRunning = false;
     var stopwatch = {
-        time: 30,
+        time: 20,
 
         reset: function() {
             stopwatch.time;
