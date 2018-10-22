@@ -51,7 +51,7 @@ $(document).ready(function() {
         },
         {
             question: "What does au jus mean?",
-            choice: ["Served with the natual cooking juices", "Cooked in wine", "Cooked with citrus or other fruit juices"],
+            choice: ["Served with the natural cooking juices", "Cooked in wine", "Cooked with citrus or other fruit juices"],
             answer: 0
         },
         {
@@ -161,6 +161,26 @@ $(document).ready(function() {
 
     };
 
+    var timeout = setTimeout(function() {
+        $("#answerBlock").empty();
+        timer=20;
+    
+    
+        if (incorrectAnswer + correctAnswer === qCount) {
+            $("#questionBlock").empty();
+            $("#questionBlock").html("<h3>Game Over! Here's your score </h3>");
+            $("#answerBlock").append("<h4> Correct: " + correctAnswer + "</h4>");
+            $("#answerBlock").append("<h4> Incorrect: " + incorrectAnswer + "</h4>");
+            $("#reset").show();
+            correctAnswer = 0;
+            incorrectAnswer = 0;
+        } else {
+            stopwatch.start();
+            displayQuestion();
+        }
+    
+    });
+
 
     // $(window).on("load", function() { // allows the modal to load before the counter starts
     //     $('#myModal1').modal('show'); //working
@@ -183,55 +203,38 @@ $(document).ready(function() {
         for(var i=0; i<pick.choice.length; i++) {
             //iterate through answer array and display
             
-            var userChoice = $("<div>");
+            var userChoice = $("<button>");
             userChoice.addClass("answerChoice");
+            userChoice.addClass("btn btn-outline-secondary");
             userChoice.html(pick.choice[i]);
             //asign array position to check answer
             userChoice.attr("data-guessvalue", i);
             $("#answerBlock").append(userChoice);
         }
+
+        $(".answerChoice").on("click", function() {
+            console.log("answer choice click");
+            //grab array position from the user guess
+            userGuess = parseInt($(this).attr("data-guessvalue"));
+    
+            //correct guess or wrong guess outcomes
+            if (userGuess === pick.answer) {
+                stopwatch.stop();
+                correctAnswer++;
+                userGuess="";
+                $("#answerBlock").html("<p>Correct!</p>");
+    
+            } else {
+                stopwatch.stop();
+                incorrectAnswer++;
+                userGuess="";
+                $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>");
+            }
+        });
+
+        
     };
 
-    //click function to select answer and outcomes
-    $(".answerChoice").on("click", function() {
-        console.log("answer choice click");
-        //grab array position from the user guess
-        userGuess = parseInt($(this).attr("data-guessvalue"));
-
-        //correct guess or wrong guess outcomes
-        if (userGuess === pick.answer) {
-            stopwatch.stop();
-            correctAnswer++;
-            userGuess="";
-            $("#answerBlock").html("<p>Correct!</p>");
-
-        } else {
-            stopwatch.stop();
-            incorrectAnswer++;
-            userGuess="";
-            $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>");
-        }
-    });
-
-    var timeout = setTimeout(function() {
-        $("#answerBlock").empty();
-        timer=20;
-    
-    
-        if (incorrectAnswer + correctAnswer === qCount) {
-            $("#questionBlock").empty();
-            $("#questionBlock").html("<h3>Game Over! Here's your score </h3>");
-            $("#answerBlock").append("<h4> Correct: " + correctAnswer + "</h4>");
-            $("#answerBlock").append("<h4> Incorrect: " + incorrectAnswer + "</h4>");
-            $("#reset").show();
-            correctAnswer = 0;
-            incorrectAnswer = 0;
-        } else {
-            stopwatch.start();
-            displayQuestion();
-        }
-    
-    });
 
    $("#reset").on("click", function() {
        $("#reset").hide();
