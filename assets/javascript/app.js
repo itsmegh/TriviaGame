@@ -81,16 +81,24 @@ $(document).ready(function() {
     var holder = [];
 
     $("#reset").hide();
+    //click start button to start the game
+    $("#start").on("click", function() {
+        $("#start").hide();
+        displayQuestion();
+        runTimer();
+        
+        for(var i=0; i<options.length; i++) {
+            holder.push(options[i]);
+        };
+        
+    });
+
 
     // $(".button-start").on("click", function() {
     //     $(".button-start").hide();
     //     displayQuestion();
     //     stopwatch.start();
-    //     // for(var i=0; i<options.length; i++) {
-    //     //     holder.push(options[i]);
-        
-
-    // });
+ 
 
     var intervalID;
     var clockRunning = false;
@@ -100,14 +108,14 @@ $(document).ready(function() {
         reset: function() {
             stopwatch.time;
             clockRunning = false;
-            $(".button-start").click(stopwatch.start);
+            $("#start").click(stopwatch.start);
 
         },
 
         start: function() {
             console.log("clock starting")
             if(!clockRunning) {
-                intervalID = setInterval(stopwatch.count, 1000);
+                intervalID = setInterval(stopwatch.count, 1000); //changed stopwatch.count to decrement
                 clockRunning = true;
                 stopwatch.count();
             }
@@ -116,7 +124,6 @@ $(document).ready(function() {
         stop: function() {
             clearInterval(intervalID);
             clockRunning = false;
-            gameOver();
         },
 
         count: function() {
@@ -125,10 +132,11 @@ $(document).ready(function() {
             var currentTime = stopwatch.timeConverter(stopwatch.time);
             $(".display").text(currentTime);
 
-            if(currentTime === 0) {
+            if(currentTime === "00:00") {
+                console.log("time is up");
                 incorrectAnswer++;
                 stopwatch.stop();
-                $("#answerblock").html("<p>Time is up! The correct answer is: " + pick.choice[pick.answer] + "</p>");
+                $("#answerBlock").html("<p>Time is up! The correct answer is: " + pick.choice[pick.answer] + "</p>");
             }
         },
 
@@ -154,26 +162,27 @@ $(document).ready(function() {
     };
 
 
-    $(window).on("load", function() { // allows the modal to load before the counter starts
-        $('#myModal1').modal('show'); //working
-        $(".button-start").click(stopwatch.start); { //working
-            $(".display").text(stopwatch.count); //working
-            displayQuestion();
-            for(var i=0; i<options.length; i++)
-            holder.push(options[i]);
-        };
+    // $(window).on("load", function() { // allows the modal to load before the counter starts
+    //     $('#myModal1').modal('show'); //working
+    //     $(".button-start").click(stopwatch.start); { //working
+    //         $(".display").text(stopwatch.count); //working
+    //         displayQuestion();
+    //         for(var i=0; i<options.length; i++)
+    //         holder.push(options[i]);
+    //     };
 
 
-    });
+    // });
 
     function displayQuestion() {
-        console.log("display question is working")
+        console.log("display question is working");
         index = Math.floor(Math.random()*options.length);
         pick = options[index];
 
         $("#questionBlock").html("<h2>" + pick.question + "</h2>");
         for(var i=0; i<pick.choice.length; i++) {
             //iterate through answer array and display
+            
             var userChoice = $("<div>");
             userChoice.addClass("answerChoice");
             userChoice.html(pick.choice[i]);
@@ -183,24 +192,9 @@ $(document).ready(function() {
         }
     };
 
-    function checkGameFinish() {
-        if (incorrectAnswer + correctAnswer === qCount) {
-            $("#questionBlock").empty();
-            $("#questionBlock").html("<h3>Game Over! Here's your score!</h3>");
-            $("#answerBlock").append("<h4> Correct")
-        } else {
-            stopwatch.reset();
-            displayQuestion();
-        }
-        
-        };
-
-    
-        
-
     //click function to select answer and outcomes
     $(".answerChoice").on("click", function() {
-        console.log("answer choices should click");
+        console.log("answer choice click");
         //grab array position from the user guess
         userGuess = parseInt($(this).attr("data-guessvalue"));
 
@@ -215,9 +209,41 @@ $(document).ready(function() {
             stopwatch.stop();
             incorrectAnswer++;
             userGuess="";
-            $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>")
+            $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>");
         }
     });
+
+    var timeout = setTimeout(function() {
+        $("#answerBlock").empty();
+        timer=20;
+    
+    
+        if (incorrectAnswer + correctAnswer === qCount) {
+            $("#questionBlock").empty();
+            $("#questionBlock").html("<h3>Game Over! Here's your score </h3>");
+            $("#answerBlock").append("<h4> Correct: " + correctAnswer + "</h4>");
+            $("#answerBlock").append("<h4> Incorrect: " + incorrectAnswer + "</h4>");
+            $("#reset").show();
+            correctAnswer = 0;
+            incorrectAnswer = 0;
+        } else {
+            stopwatch.start();
+            displayQuestion();
+        }
+    
+    });
+
+   $("#reset").on("click", function() {
+       $("#reset").hide();
+       $("#answerBlock").empty();
+       $("#questionBlock").empty();
+       for(var i=0; i<holder.length; i++) {
+           options.push(holder[i]);
+       }
+       stopwatch.start();
+       displayQuestion();
+   });
+        
 
 });
     // function scoreCounter() {
