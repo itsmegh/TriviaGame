@@ -16,6 +16,8 @@
 
 
 $(document).ready(function() {
+    $("#start").show();
+    $("#reset").hide();
 //create modal with "start button" and then at the end of the game the modal will appear again with game score and the start button.
 //add functionality for ".button-finish" - show modal with questions correct/wrong/unanswered/start button
     var options = [
@@ -80,12 +82,14 @@ $(document).ready(function() {
     var newArray = [];
     var holder = [];
 
-    $("#reset").hide();
+    
     //click start button to start the game
-    $("#start").on("click", function() {
-        $("#start").hide();
+    $("document").on("click", "#start", function() {
+        
         displayQuestion();
         runTimer();
+       
+        
         
         for(var i=0; i<options.length; i++) {
             holder.push(options[i]);
@@ -118,6 +122,10 @@ $(document).ready(function() {
                 intervalID = setInterval(stopwatch.count, 1000); //changed stopwatch.count to decrement
                 clockRunning = true;
                 stopwatch.count();
+
+                if($('#start').is(":visible")){
+                    $('#start').hide();
+               } 
             }
         },
 
@@ -171,7 +179,7 @@ $(document).ready(function() {
             $("#questionBlock").html("<h3>Game Over! Here's your score </h3>");
             $("#answerBlock").append("<h4> Correct: " + correctAnswer + "</h4>");
             $("#answerBlock").append("<h4> Incorrect: " + incorrectAnswer + "</h4>");
-            $("#reset").show();
+            //$("#reset").show();
             correctAnswer = 0;
             incorrectAnswer = 0;
         } else {
@@ -223,17 +231,39 @@ $(document).ready(function() {
                 correctAnswer++;
                 userGuess="";
                 $("#answerBlock").html("<p>Correct!</p>");
-    
+                
             } else {
                 stopwatch.stop();
                 incorrectAnswer++;
                 userGuess="";
                 $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>");
             }
+
+           
+            
         });
+
 
         
     };
+
+
+    async function nextQuestion() {
+        var x = await displayQuestion();
+
+        setTimeout(function() {
+            $(".answerChoice"), 3000;
+            })
+    }
+    //THIS CODE IS NEEDED BUT NOT SURE WHERE...
+    // if (game.currentQuestion === questions.length - 1) {
+    //     setTimeout(game.results, 3 * 1000);
+    //   }
+    //   else {
+    //     setTimeout(game.nextQuestion, 3 * 1000);
+    //   }
+  
+    //   
 
 
    $("#reset").on("click", function() {
