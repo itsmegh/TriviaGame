@@ -86,6 +86,7 @@ $(document).ready(function() {
     //click start button to start the game
     $("document").on("click", "#start", function() {
         
+        console.log("on document click");
         displayQuestion();
         runTimer();
        
