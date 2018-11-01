@@ -93,17 +93,19 @@ $(document).ready(function() {
     var newArray = [];
     var holder = [];
 
-    $("#reset").hide();
+    //$("#reset").hide();
     //click start button to start game
-    $("#start").on("click", function(event) {
+    $("document").on("click", function(event) {
         event.preventDefault();
-        $("#start").hide();
+
+        //$("#start").hide();
         displayQuestion();
         stopwatch.start();
             
             for(var i = 0; i < options.length; i++) {
                 holder.push(options[i]);
             }
+        
     });
 
     //click start button to start the game
@@ -132,10 +134,6 @@ $(document).ready(function() {
                 intervalID = setInterval(stopwatch.count, 1000); //changed stopwatch.count to decrement
                 clockRunning = true;
                 stopwatch.count();
-
-            //     if($('#start').is(":visible")){
-                   
-            //    } 
             }
         },
 
@@ -208,6 +206,8 @@ $(document).ready(function() {
                 correctAnswer++;
                 userGuess="";
                 $("#answerBlock").html("<p>Correct!</p>");
+                reviewQuestion();
+
                 setTimeout(function() {
                     $("#answerBlock").empty();
                     timer = 20;
@@ -218,21 +218,26 @@ $(document).ready(function() {
                 incorrectAnswer++;
                 userGuess="";
                 $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>");
+                reviewQuestion();
+
                 setTimeout(function() {
                     $("#answerBlock").empty();
                     timer = 20;
+                    stopwatch.reset();
                 }, 3 * 1000);
             } 
             
-            reviewQuestion();
         });
+
     };
 
-    // var timeout = setTimeout(function() {
-    //     $("#answerBlock").empty();
-    //     timer=20;
-    
-    //make this a function that runs after each question is answered
+
+    function nextQuestion () {
+        stopwatch.reset();
+        displayQuestion();
+    }
+
+  //this function should run after each question is answered
     function reviewQuestion () {
         console.log("review question is working");
 
@@ -241,28 +246,30 @@ $(document).ready(function() {
             $("#questionBlock").html("<h3>Game Over! Here's your score </h3>");
             $("#answerBlock").append("<h4> Correct: " + correctAnswer + "</h4>");
             $("#answerBlock").append("<h4> Incorrect: " + incorrectAnswer + "</h4>");
-            //$("#reset").show();
-            correctAnswer = 0;
-            incorrectAnswer = 0;
-        } else {
-            stopwatch.start();
-            displayQuestion();
-        }
+            $("#reset").show();
+        };
+
+        // } else {
+        //     stopwatch.start();
+        //     displayQuestion();
+        // }
     };
        
     
-        $("#reset").on("click", function() {
-            $("#reset").hide();
-            $("#answerBlock").empty();
-            $("#questionBlock").empty();
-            for(var i=0; i<holder.length; i++) {
-                options.push(holder[i]);
-            }
-            stopwatch.start();
-            displayQuestion();
-        });
+        // $("#reset").on("click", function() {
+        //     $("#reset").hide();
+        //     $("#answerBlock").empty();
+        //     $("#questionBlock").empty();
+        //     for(var i=0; i<holder.length; i++) {
+        //         options.push(holder[i]);
+        //     }
+        //     stopwatch.start();
+        //     displayQuestion();
+        //     correctAnswer = 0;
+        //     incorrectAnswer = 0;
+        // });
              
-     });
+});
     
    // });
 
