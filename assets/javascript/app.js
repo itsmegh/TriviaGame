@@ -15,11 +15,12 @@
         //button option to restart the game - button in modal
 
 
+
 $(document).ready(function() {
-    $("#start").show();
-    $("#reset").hide();
-//create modal with "start button" and then at the end of the game the modal will appear again with game score and the start button.
-//add functionality for ".button-finish" - show modal with questions correct/wrong/unanswered/start button
+ 
+    var quizArea = $("#myForm");
+    var countStartNumber = 20;
+
     var options = [
         {
             question: "A roux is used to thicken soups or sauces. What is it usually made from?",
@@ -72,6 +73,16 @@ $(document).ready(function() {
             answer: 2
         },
     ];
+
+    var game = {
+        options: options,
+        currentQuestion: 0,
+        //stopwatch: count,
+        correctAnswer: 0,
+        incorrectAnswer: 0,
+
+        //countdown function here?  
+    }
         
     var correctAnswer = 0;
     var incorrectAnswer = 0;
@@ -82,28 +93,25 @@ $(document).ready(function() {
     var newArray = [];
     var holder = [];
 
-    
-    //click start button to start the game
-    $("document").on("click", "#start", function() {
-        
-        console.log("on document click");
+    $("#reset").hide();
+    //click start button to start game
+    $("#start").on("click", function(event) {
+        event.preventDefault();
+        $("#start").hide();
         displayQuestion();
-        runTimer();
-       
-        
-        
-        for(var i=0; i<options.length; i++) {
-            holder.push(options[i]);
-        };
-        
+        stopwatch.start();
+            
+            for(var i = 0; i < options.length; i++) {
+                holder.push(options[i]);
+            }
     });
 
+    //click start button to start the game
+    //$("document").on("click", "#start", function(event) {
+    // $("document").on("load", function() {
+    //     $("#myModal1").on("show.bs.modal", function() {
 
-    // $(".button-start").on("click", function() {
-    //     $(".button-start").hide();
-    //     displayQuestion();
-    //     stopwatch.start();
- 
+    //     });
 
     var intervalID;
     var clockRunning = false;
@@ -113,7 +121,8 @@ $(document).ready(function() {
         reset: function() {
             stopwatch.time;
             clockRunning = false;
-            $("#start").click(stopwatch.start);
+            stopwatch.start();
+            //$("#start").click(stopwatch.start);
 
         },
 
@@ -124,9 +133,9 @@ $(document).ready(function() {
                 clockRunning = true;
                 stopwatch.count();
 
-                if($('#start').is(":visible")){
-                    $('#start').hide();
-               } 
+            //     if($('#start').is(":visible")){
+                   
+            //    } 
             }
         },
 
@@ -170,39 +179,6 @@ $(document).ready(function() {
 
     };
 
-    var timeout = setTimeout(function() {
-        $("#answerBlock").empty();
-        timer=20;
-    
-    
-        if (incorrectAnswer + correctAnswer === qCount) {
-            $("#questionBlock").empty();
-            $("#questionBlock").html("<h3>Game Over! Here's your score </h3>");
-            $("#answerBlock").append("<h4> Correct: " + correctAnswer + "</h4>");
-            $("#answerBlock").append("<h4> Incorrect: " + incorrectAnswer + "</h4>");
-            //$("#reset").show();
-            correctAnswer = 0;
-            incorrectAnswer = 0;
-        } else {
-            stopwatch.start();
-            displayQuestion();
-        }
-    
-    });
-
-
-    // $(window).on("load", function() { // allows the modal to load before the counter starts
-    //     $('#myModal1').modal('show'); //working
-    //     $(".button-start").click(stopwatch.start); { //working
-    //         $(".display").text(stopwatch.count); //working
-    //         displayQuestion();
-    //         for(var i=0; i<options.length; i++)
-    //         holder.push(options[i]);
-    //     };
-
-
-    // });
-
     function displayQuestion() {
         console.log("display question is working");
         index = Math.floor(Math.random()*options.length);
@@ -232,30 +208,71 @@ $(document).ready(function() {
                 correctAnswer++;
                 userGuess="";
                 $("#answerBlock").html("<p>Correct!</p>");
+                setTimeout(function() {
+                    $("#answerBlock").empty();
+                    timer = 20;
+                }, 3 * 1000);
                 
             } else {
                 stopwatch.stop();
                 incorrectAnswer++;
                 userGuess="";
                 $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>");
-            }
-
-           
+                setTimeout(function() {
+                    $("#answerBlock").empty();
+                    timer = 20;
+                }, 3 * 1000);
+            } 
             
+            reviewQuestion();
         });
-
-
-        
     };
 
+    // var timeout = setTimeout(function() {
+    //     $("#answerBlock").empty();
+    //     timer=20;
+    
+    //make this a function that runs after each question is answered
+    function reviewQuestion () {
+        console.log("review question is working");
 
-    async function nextQuestion() {
-        var x = await displayQuestion();
+        if (incorrectAnswer + correctAnswer === qCount) {
+            $("#questionBlock").empty();
+            $("#questionBlock").html("<h3>Game Over! Here's your score </h3>");
+            $("#answerBlock").append("<h4> Correct: " + correctAnswer + "</h4>");
+            $("#answerBlock").append("<h4> Incorrect: " + incorrectAnswer + "</h4>");
+            //$("#reset").show();
+            correctAnswer = 0;
+            incorrectAnswer = 0;
+        } else {
+            stopwatch.start();
+            displayQuestion();
+        }
+    };
+       
+    
+        $("#reset").on("click", function() {
+            $("#reset").hide();
+            $("#answerBlock").empty();
+            $("#questionBlock").empty();
+            for(var i=0; i<holder.length; i++) {
+                options.push(holder[i]);
+            }
+            stopwatch.start();
+            displayQuestion();
+        });
+             
+     });
+    
+   // });
 
-        setTimeout(function() {
-            $(".answerChoice"), 3000;
-            })
-    }
+    // async function nextQuestion() {
+    //     var x = await displayQuestion();
+
+    //     setTimeout(function() {
+    //         $(".answerChoice"), 3000;
+    //         })
+    // }
     //THIS CODE IS NEEDED BUT NOT SURE WHERE...
     // if (game.currentQuestion === questions.length - 1) {
     //     setTimeout(game.results, 3 * 1000);
@@ -267,19 +284,8 @@ $(document).ready(function() {
     //   
 
 
-   $("#reset").on("click", function() {
-       $("#reset").hide();
-       $("#answerBlock").empty();
-       $("#questionBlock").empty();
-       for(var i=0; i<holder.length; i++) {
-           options.push(holder[i]);
-       }
-       stopwatch.start();
-       displayQuestion();
-   });
-        
 
-});
+
     // function scoreCounter() {
     //     //tracks the correct box clicks
     //     $('input[value=1]').change(function(){ 
