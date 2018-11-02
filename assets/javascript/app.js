@@ -93,9 +93,9 @@ $(document).ready(function() {
     var newArray = [];
     var holder = [];
 
-    //$("#reset").hide();
+    $("#reset").hide();
     //click start button to start game
-    $("document").on("click", function(event) {
+    $("#start").on("click", function(event) {
         event.preventDefault();
 
         //$("#start").hide();
@@ -179,69 +179,79 @@ $(document).ready(function() {
 
     function displayQuestion() {
         console.log("display question is working");
-        index = Math.floor(Math.random()*options.length);
-        pick = options[index];
-
-        $("#questionBlock").html("<h2>" + pick.question + "</h2>");
-        for(var i=0; i<pick.choice.length; i++) {
-            //iterate through answer array and display
+        for(var i=0; i<options.length; i++) {
+            $("#questionBlock").html("<h2>" + options[i].question + "</h2>");
             
-            var userChoice = $("<button>");
-            userChoice.addClass("answerChoice");
-            userChoice.addClass("btn btn-outline-secondary");
-            userChoice.html(pick.choice[i]);
-            //asign array position to check answer
-            userChoice.attr("data-guessvalue", i);
-            $("#answerBlock").append(userChoice);
-        }
-
-        $(".answerChoice").on("click", function() {
-            console.log("answer choice click");
-            //grab array position from the user guess
-            userGuess = parseInt($(this).attr("data-guessvalue"));
-    
-            //correct guess or wrong guess outcomes
-            if (userGuess === pick.answer) {
-                stopwatch.stop();
-                correctAnswer++;
-                userGuess="";
-                $("#answerBlock").html("<p>Correct!</p>");
-                reviewQuestion();
-
-                setTimeout(function() {
-                    $("#answerBlock").empty();
-                    timer = 20;
-                }, 3 * 1000);
+            for(var j=0; j<options[i].choice.length; j++) {
+                //iterate through answer array and display
                 
-            } else {
-                stopwatch.stop();
-                incorrectAnswer++;
-                userGuess="";
-                $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>");
-                reviewQuestion();
-
-                setTimeout(function() {
-                    $("#answerBlock").empty();
-                    timer = 20;
-                    stopwatch.reset();
-                }, 3 * 1000);
-            } 
+                var userChoice = $("<button>");
+                userChoice.addClass("answerChoice");
+                userChoice.addClass("btn btn-outline-secondary");
+                userChoice.html(options[i].choice[j]);
+                //asign array position to check answer
+                userChoice.attr("data-guessvalue", j);
+                $("#answerBlock").append(userChoice);
+            }    
+            //put the answer click listener here
             
-        });
+            $(".answerChoice").on("click", function() {
+                console.log("answer choice click");
+                //grab array position from the user guess
+                userGuess = parseInt($(this).attr("data-guessvalue"));
+        
+                //correct guess or wrong guess outcomes
+                if (userGuess === pick.answer) {
+                    stopwatch.stop();
+                    correctAnswer++;
+                    userGuess="";
+                    $("#answerBlock").html("<p>Correct!</p>");
+                    //reviewQuestion();
+
+                    setTimeout(function() {
+                        $("#answerBlock").empty();
+                        timer = 20;
+                    }, 3 * 1000);
+                    
+                } else {
+                    stopwatch.stop();
+                    incorrectAnswer++;
+                    userGuess="";
+                    $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>");
+                    //reviewQuestion();
+
+                    setTimeout(function() {
+                        $("#answerBlock").empty();
+                        timer = 20;
+                        stopwatch.reset();
+                    }, 3 * 1000);
+                } 
+                
+            });
+        }
+        //pick.question -- options[i].question
+        //                           .choice or .answer for others
+        //add a new for loop at the top to loop through option array
+        
+        //next -- add answer choice within the for loop before it closes -- listen for the clicks
+        //need to do this before we go on to the next question
+
+        //answerChoice -- deal with the timer with the for loop
+        //make sure the timer starts
 
     };
 
-
+//try without once for loop is added, won't need
     function nextQuestion () {
         stopwatch.reset();
         displayQuestion();
     }
 
   //this function should run after each question is answered
-    function reviewQuestion () {
+    function reviewQuestion () { //run this after the for loop
         console.log("review question is working");
 
-        if (incorrectAnswer + correctAnswer === qCount) {
+        if (incorrectAnswer + correctAnswer === qCount) { //wont need this
             $("#questionBlock").empty();
             $("#questionBlock").html("<h3>Game Over! Here's your score </h3>");
             $("#answerBlock").append("<h4> Correct: " + correctAnswer + "</h4>");
